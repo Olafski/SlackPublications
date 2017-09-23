@@ -1,6 +1,6 @@
 // Slack types. Generated with quicktype.io, then modified a little. 
 // Add extensions in the SlackTypesExtensions file.
-namespace SlackPublications.SlackClient.SlackTypes
+namespace SlackPublications.SlackApi.SlackTypes
 {
     using System;
     using System.Net;

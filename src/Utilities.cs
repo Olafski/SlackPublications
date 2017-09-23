@@ -10,6 +10,11 @@ namespace SlackPublications
     public static class Utilities
     {
         /// <summary>
+        /// Start of the week. This is used to choose which days to post links from.
+        /// </summary>
+        private const DayOfWeek StartOfWeek = DayOfWeek.Monday;
+        
+        /// <summary>
         /// Turns a DateTime into a Week number.
         /// </summary>
         public static int GetIso8601WeekOfYear(DateTime time)
@@ -67,6 +72,39 @@ namespace SlackPublications
             }
 
             return url;
+        }
+
+        /// <summary>
+        /// Gets the start of last week.
+        /// </summary>
+        public static DateTime StartOfLastWeek
+        {
+            get 
+            {
+                DateTime now = DateTime.Now;
+                int diff = now.DayOfWeek - StartOfWeek;
+
+                if (diff < 0)
+                {
+                    diff += 7;
+                }
+
+                // last week
+                diff += 7;
+
+                return now.AddDays(-1 * diff).Date;
+            }
+        }
+
+        /// <summary>
+        /// Gets the end of last week.
+        /// </summary>
+        public static DateTime EndOfLastWeek
+        {
+            get 
+            {
+                return StartOfLastWeek.AddDays(7);
+            }
         }
     }
 }

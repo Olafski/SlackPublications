@@ -1,6 +1,6 @@
 using System;
 
-namespace SlackPublications.SlackClient.SlackTypes
+namespace SlackPublications.SlackApi.SlackTypes
 {
     /// <summary>
     /// Manual additions to the Message type.

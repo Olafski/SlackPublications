@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Refit;
-using SlackPublications.SlackClient;
+using SlackPublications.SlackApi;
 
 namespace SlackPublications
 {
@@ -23,7 +23,8 @@ namespace SlackPublications
                 return;
             }
 
-            PublicationsGenerator generator = new PublicationsGenerator(token);
+            ISlackApi slackClient = new SlackClient(token);
+            PublicationsGenerator generator = new PublicationsGenerator(slackClient);
 
             string publications = await generator.GeneratePublicaties();
 

@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace SlackPublicaties
+namespace SlackPublications
 {
     /// <summary>
     /// Utility for getting and parsing websites.

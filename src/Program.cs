@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Refit;
-using SlackPublicaties.SlackClient;
+using SlackPublications.SlackClient;
 
-namespace SlackPublicaties
+namespace SlackPublications
 {
     /// <summary>
     /// Main class. Takes input and produces output. :-)

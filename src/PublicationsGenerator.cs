@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Refit;
-using SlackPublicaties.SlackClient;
-using SlackPublicaties.SlackClient.SlackTypes;
+using SlackPublications.SlackClient;
+using SlackPublications.SlackClient.SlackTypes;
 
-namespace SlackPublicaties
+namespace SlackPublications
 {
     /// <summary>
     /// Publications Generator. Used to generate a list of links posted last week from a given channel in Slack.

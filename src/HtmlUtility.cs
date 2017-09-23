@@ -4,15 +4,27 @@ using System.Text.RegularExpressions;
 
 namespace SlackPublicaties
 {
+    /// <summary>
+    /// Utility for getting and parsing websites.
+    /// </summary>
     public class HtmlUtility
     {
+        /// <summary>
+        /// Reusable WebClient reference.
+        /// </summary>
         WebClient _client;
 
+        /// <summary>
+        /// Creates an instance and initializes the WebClient.
+        /// </summary>
         public HtmlUtility()
         {
             _client = new WebClient();
         }
 
+        /// </summary>
+        /// Gets the contents of the title tag from a given URL.
+        /// </summary>
         public string GetTitle(string url)
         {
             try 

@@ -1,11 +1,5 @@
-// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
-//
-//    using QuickType;
-//
-//    var data = GettingStarted.FromJson(jsonString);
-//
-// For POCOs visit quicktype.io?poco
-//
+// Slack types. Generated with quicktype.io, then modified a little. 
+// Add extensions in the SlackTypesExtensions file.
 namespace SlackPublicaties.SlackClient.SlackTypes
 {
     using System;

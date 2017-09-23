@@ -11,16 +11,40 @@ using SlackPublicaties.SlackClient.SlackTypes;
 
 namespace SlackPublicaties
 {
-    internal class PublicatiesGenerator
+    /// <summary>
+    /// Publications Generator. Used to generate a list of links posted last week from a given channel in Slack.
+    /// </summary>
+    internal class PublicationsGenerator
     {
+        /// <summary>
+        /// The Slack OAuth token to use.
+        /// </summary>
         private string _token;
+
+        /// <summary>
+        /// Start of the week. This is used to choose which days to post links from.
+        /// </summary>
         private const DayOfWeek StartOfWeek = DayOfWeek.Monday;
+
+        /// <summary>
+        /// Reusable Slack API client reference.
+        /// </summary>
         private ISlackApi _client;
+
+        /// <summary>
+        /// Reusable HTML Utility reference.
+        /// </summary>
         private HtmlUtility _htmlUtility;
 
+        /// <summary>
+        /// Cache of user IDs to Usernames. Slack messages contain @userID references, so this saves us some lookups in the API.
+        /// </summary>
         private Dictionary<string,string> _usernames;
 
-        public PublicatiesGenerator(string token)
+        /// <summary>
+        /// Sets the generator up with its defaults. Pass in the token to get started.
+        /// </summary>
+        public PublicationsGenerator(string token)
         {
             this._token = token;
             this._client  = RestService.For<ISlackApi>("https://slack.com/api/");
@@ -28,7 +52,10 @@ namespace SlackPublicaties
             this._usernames = new Dictionary<string,string>();
         }
 
-        public async Task<string> GenereerPublicaties()
+        /// <summary>
+        /// Generates a list of publications and outputs it.
+        /// </summary>
+        public async Task<string> GeneratePublicaties()
         {
             var messages = await GetLastWeeksLinks();
 
@@ -47,9 +74,9 @@ namespace SlackPublicaties
 
             content.Append(Environment.NewLine);
 
-            IEnumerable<string> gebruikers = await GetUserNames(messages);
-            string gebruikerNamen = string.Join(", @", gebruikers);
-            content.Append($"De lijst is deze week mogelijk gemaakt door @{gebruikerNamen}. Bedankt!");
+            IEnumerable<string> users = await GetUserNames(messages);
+            string userNames = string.Join(", @", users);
+            content.Append($"De lijst is deze week mogelijk gemaakt door @{userNames}. Bedankt!");
 
             content.Append(Environment.NewLine);
             content.Append(Environment.NewLine);
@@ -64,6 +91,9 @@ namespace SlackPublicaties
             return content.ToString();
         }
 
+        /// <summary>
+        /// Gets a list of unique usernames from Slack messages.
+        /// </summary>
         private async Task<IEnumerable<string>> GetUserNames(IEnumerable<Message> messages)
         {
             var names = new List<string>();
@@ -81,11 +111,17 @@ namespace SlackPublicaties
             return names;
         }
 
+        /// <summary>
+        /// Gets the username from a Slack message.
+        /// </summary>
         private async Task<string> GetUserName(Message message)
         {
             return await GetUserName(message.User);
         }
 
+        /// <summary>
+        /// Gets the username from a Slack user ID.
+        /// </summary>
         private async Task<string> GetUserName(string userId)
         {
             if (_usernames.ContainsKey(userId))
@@ -100,6 +136,9 @@ namespace SlackPublicaties
             return name;
         }
 
+        /// <summary>
+        /// Gets the links posted last week.
+        /// </summary>
         private async Task<IEnumerable<Message>> GetLastWeeksLinks()
         {
             IEnumerable<Message> lastWeeksMessages = await GetLastWeeksMessages();
@@ -109,6 +148,9 @@ namespace SlackPublicaties
             return links;
         }
 
+        /// <summary>
+        /// Determines whether a message contains a link.
+        /// </summary>
         private bool IsLink(string messageText)
         {
             bool isUrl = messageText.Contains("http://") || messageText.Contains("https://") || messageText.Contains("www");
@@ -116,13 +158,15 @@ namespace SlackPublicaties
             return isUrl;
         }
 
+        /// <summary>
+        /// Gets the messages posted last week.
+        /// </summary>
         private async Task<IEnumerable<Message>> GetLastWeeksMessages()
         {
             int start = Utilities.GetUnixTimestamp(StartOfLastWeek);
             int end = Utilities.GetUnixTimestamp(EndOfLastWeek);
 
-            var client = RestService.For<ISlackApi>("https://slack.com/api/");
-            ChannelMessages messageResult = await client.GetChannelHistory("xoxp-61820345425-84445245876-242544919669-0af7e103674ad5e9a778c31207da6ca7", "C1UEZJNTS", start, end);
+            ChannelMessages messageResult = await _client.GetChannelHistory(_token, "C1UEZJNTS", start, end);
 
             if (!messageResult.Ok)
             {
@@ -134,6 +178,9 @@ namespace SlackPublicaties
             return messages.OrderBy(m => m.PostedAt);
         }
 
+        /// <summary>
+        /// Gets the start of last week.
+        /// </summary>
         private DateTime StartOfLastWeek
         {
             get 
@@ -153,6 +200,9 @@ namespace SlackPublicaties
             }
         }
 
+        /// <summary>
+        /// Gets the end of last week.
+        /// </summary>
         private DateTime EndOfLastWeek
         {
             get 
@@ -161,6 +211,9 @@ namespace SlackPublicaties
             }
         }
 
+        /// <summary>
+        /// Parses a message and tries to return it in the format [URL] - [Description]. If the message is just a URL, that URL is returned.
+        /// </summary>
         private async Task<string> ParseMessage(string messageText)
         {
             string modifiedMessage = Regex.Replace(messageText, "[\r\n]", "");
@@ -206,10 +259,16 @@ namespace SlackPublicaties
             return $"{url} - {title}";
         }
 
+        /// <summary>
+        /// Normalizes a URL.
+        /// </summary>
         private string Normalize(string messageText) {
             return messageText.Replace(":", "");
         }
 
+        /// <summary>
+        /// Replaces the user IDs in a Slack message with user names.
+        /// </summary>
         private async Task<string> ReplaceUsernames(string messageText)
         {
             var pattern = new Regex(@"(<@(U[A-Z0-9]*)>)");

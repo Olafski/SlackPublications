@@ -4,8 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace SlackPublicaties
 {
+    /// <summary>
+    /// Utility methods.
+    /// </summary>
     public static class Utilities
     {
+        /// <summary>
+        /// Turns a DateTime into a Week number.
+        /// </summary>
         public static int GetIso8601WeekOfYear(DateTime time)
         {
             // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
@@ -21,11 +27,17 @@ namespace SlackPublicaties
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         } 
 
+        /// <summary>
+        /// Turns a DateTime into a Unix timestamp.
+        /// </summary>
         public static int GetUnixTimestamp(DateTime dateTime)
         {
             return (Int32)(dateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
+        /// <summary>
+        /// Turns a Unix timestamp into a DateTime.
+        /// </summary>
         public static DateTime GetDateTime(string timestamp)
         {
 			if (timestamp.Contains("."))
@@ -41,6 +53,9 @@ namespace SlackPublicaties
 		    return dtDateTime;
         }
 
+        /// <summary>
+        /// Cleans a Slack url. Used because Slack sometimes turns yoursite.com into http://www.yoursite.com|yoursite.com in the messages.
+        /// </summary>
         public static string CleanUrl(string url)
         {
             var pattern = new Regex(@"((.+)://(.+))\|(.+)");

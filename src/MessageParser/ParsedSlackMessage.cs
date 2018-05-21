@@ -1,5 +1,7 @@
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using SlackPublications.SlackApi.SlackTypes;
 
 namespace SlackPublications.MessageParser
@@ -65,6 +67,11 @@ namespace SlackPublications.MessageParser
             }
 
             description = await ReplaceUsernames(description);
+            description = HttpUtility.HtmlDecode(description);
+
+            // Cut off at 200, because sometimes the description does not get parsed correctly.
+            // This is a temporary measure to at least prevent console spam.
+            description = description.Substring(0, Math.Min(description.Length, 200));
 
             return $"{Url} - {description}";
         }

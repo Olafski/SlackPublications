@@ -93,7 +93,7 @@ namespace SlackPublications.SlackApi.SlackTypes
     public partial class Attachments
     {
         [JsonProperty("image_height")]
-        public long? ImageHeight { get; set; }
+        public string ImageHeight { get; set; }
 
         [JsonProperty("thumb_url")]
         public string ThumbUrl { get; set; }
@@ -111,19 +111,19 @@ namespace SlackPublications.SlackApi.SlackTypes
         public string Fallback { get; set; }
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("from_url")]
         public string FromUrl { get; set; }
 
         [JsonProperty("image_bytes")]
-        public long? ImageBytes { get; set; }
+        public string ImageBytes { get; set; }
 
         [JsonProperty("service_name")]
         public string ServiceName { get; set; }
 
         [JsonProperty("image_width")]
-        public long? ImageWidth { get; set; }
+        public string ImageWidth { get; set; }
 
         [JsonProperty("image_url")]
         public string ImageUrl { get; set; }
@@ -138,28 +138,28 @@ namespace SlackPublications.SlackApi.SlackTypes
         public string ServiceUrl { get; set; }
 
         [JsonProperty("thumb_height")]
-        public long? ThumbHeight { get; set; }
+        public string ThumbHeight { get; set; }
 
         [JsonProperty("ts")]
-        public long? Ts { get; set; }
+        public string Ts { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
 
         [JsonProperty("thumb_width")]
-        public long? ThumbWidth { get; set; }
+        public string ThumbWidth { get; set; }
 
         [JsonProperty("title_link")]
         public string TitleLink { get; set; }
 
         [JsonProperty("video_html_height")]
-        public long? VideoHtmlHeight { get; set; }
+        public string VideoHtmlHeight { get; set; }
 
         [JsonProperty("video_html")]
         public string VideoHtml { get; set; }
 
         [JsonProperty("video_html_width")]
-        public long? VideoHtmlWidth { get; set; }
+        public string VideoHtmlWidth { get; set; }
     }
 
     public partial class Fields

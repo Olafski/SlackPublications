@@ -29,6 +29,11 @@ namespace SlackPublications.MessageParser
         /// </summary>
         public bool IsLink(string messageText)
         {
+            if (messageText == null) 
+            {
+                return false;
+            }
+            
             bool isUrl = messageText.Contains("http://") || messageText.Contains("https://") || messageText.Contains("www");
 
             return isUrl;

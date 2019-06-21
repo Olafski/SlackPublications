@@ -71,7 +71,9 @@ namespace SlackPublications.MessageParser
 
             // Cut off at 200, because sometimes the description does not get parsed correctly.
             // This is a temporary measure to at least prevent console spam.
-            description = description.Substring(0, Math.Min(description.Length, 200));
+            description = description.Substring(0, Math.Min(description.Length, 500));
+
+            description = description.Trim();
 
             return $"{Url} - {description}";
         }

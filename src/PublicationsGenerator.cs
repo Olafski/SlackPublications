@@ -39,7 +39,7 @@ namespace SlackPublications
             var messages = await GetLastWeeksLinks();
 
             var content = new StringBuilder();
-            content.Append($"Hieronder is de lijst met #publicaties van de afgelopen week ({Utilities.GetIso8601WeekOfYear(Utilities.StartOfLastWeek)}) te vinden. Veel leesplezier!");
+            content.Append($"Hieronder is de lijst #publicaties gedeeld door collega's in de afgelopen week ({Utilities.GetIso8601WeekOfYear(Utilities.StartOfLastWeek)}) te vinden. Veel leesplezier!");
             content.Append(Environment.NewLine);
             content.Append(Environment.NewLine);
 
